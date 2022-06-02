@@ -22,6 +22,16 @@ colnames(training_set)
 training_set_group1 <- training_set[training_set$Age == 0, 1:4]
 training_set_group2 <- training_set[training_set$Age == 1, 1:4]
 
+
+################### PLOTTING THE VARIABLES ###################
+
+par(mfrow = c(2, 2))
+qqplot(training_set_group1$Book, training_set_group2$Book, pch = 16)
+qqplot(training_set_group1$Electr, training_set_group2$Electr, pch = 16)
+qqplot(training_set_group1$Cloth, training_set_group2$Cloth, pch = 16)
+qqplot(training_set_group1$House, training_set_group2$House, pch = 16)
+par(mfrow = c(1, 1))
+
 ################### ESTIMATING THE PARAMETERS OF THE MODEL ###################
 
 # Number of observations in group 1
@@ -52,7 +62,7 @@ mu2_hat <- colMeans(training_set_group2)
 mu2_hat
 
 
-################### CLASSIFYING NEW OBSERVATIONS ###################
+################### CLASSIFYING OBSERVATIONS ###################
 
 classify <- function(mu_1, mu_2, Sigma, p, y) {
     # mu_1: population mean of class 1
@@ -85,28 +95,27 @@ classify <- function(mu_1, mu_2, Sigma, p, y) {
     return(as.numeric(res))
 }
 
-# First observation
-y1 <- training_set
-y1
-y1 <- y1[,1:4]
 
-training_set_classification <- classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, y1)
+# Classifying the training set
+training_set_classification <- classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, training_set[,1:4])
 
+# How many we get correctly
 sum(training_set_classification == training_set$Age)
 nrow(training_set)
 
+sum(training_set_classification == training_set$Age) / nrow(training_set)
+
+
+# Some analyses
 lm_thing <- lm(training_set_classification ~ training_set$Age)
 summary(lm_thing)
 
 t.test(training_set_classification, training_set$Age)
+t.test(training_set_classification == training_set$Age, 
+rep(0, length(training_set_classification)))
 
-t.test(training_set_classification, 1 - training_set_classification)
 
 
-# Testing on test set
-
-classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, test_set[,1:4])
-
-test_set$Age
-
+# Applying to test set
+test_set_classification <- classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, test_set[,1:4])
 
