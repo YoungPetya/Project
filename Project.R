@@ -124,9 +124,12 @@ sum(training_set_classification == training_set$Age) / nrow(training_set)
 
 
 
+# Fos
+
 # Some analyses
 lm_thing <- lm(training_set$Age ~ training_set_classification)
 summary(lm_thing)
+plot(lm_thing)
 
 asdasd <- lm(training_set$Age ~ training_set$Book + training_set$Cloth + training_set$House + training_set$Electr)
 asdasd <- lm(training_set$Age ~ training_set$Book + training_set$Cloth)
@@ -140,47 +143,49 @@ par(mfrow = c(2, 2))
 # plots of the residuals
 plot(lm_thing)
 
-
+# Annyira nem joooo
 bruh <- glm(training_set$Age ~ training_set_classification, family = binomial)
 summary(bruh)
-plot(bruh)
 
 
-bruh2 <- glm(training_set$Age ~ training_set$Book + training_set$Cloth + training_set$House + training_set$Electr, family = binomial)
 
-
-summary(bruh2)
+# Nagyon jooooooooooo
+logistic_regression <- glm(training_set$Age ~ training_set$Book + training_set$Cloth + training_set$House + training_set$Electr, family = binomial)
+summary(logistic_regression)
 
 par(mfrow = c(2, 2))
-plot(bruh2)
+plot(logistic_regression)
+
+# ezzel mit kezdunk
 
 
 
+################### APPLYING TO TEST SET ###################
 
-t.test(training_set_classification, training_set$Age)
-t.test(training_set_classification == training_set$Age, 
-rep(0, length(training_set_classification)))
-
-
-
-# Applying to test set
 test_set_classification <- classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, test_set[,1:4])
 
 test_set_classification
 
 
-################### TO BE EDITED ###################
+################### ESTIMATING FALSE/CORRECT CLASSIFICATIONS ###################
 
 # Training set classification of those who are actually under 30
 group0_classification <- training_set_classification[training_set$Age == 0]
-
 group1_classification <- training_set_classification[training_set$Age == 1]
 
-# What ratio was identified correctly in each age group?
-aa <- sum(1 - group0_classification) / length(group0_classification)
 
-bb <- sum(group1_classification) / length(group1_classification)
+# What ratio was identified correctly?
+# Total
+correct <- sum(training_set_classification == training_set$Age)
+correct / length(training_set$Age)
 
+# Group 0
+group_0_ratio <- sum(1 - group0_classification) / length(group0_classification)
+# Group 1
+group_1_ratio <- sum(group1_classification) / length(group1_classification)
 
+cat(paste("Correct ratio for all observations: ", correct / length(training_set$Age), "\n", 
+"Correct ratio for group 0: ", group_0_ratio, "\n", 
+"Correct ratio for group 1: ", group_1_ratio, "\n"))
 
 
