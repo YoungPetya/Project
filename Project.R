@@ -24,6 +24,8 @@ training_set_group0 <- training_set[training_set$Age == 0, 1:4]
 training_set_group1 <- training_set[training_set$Age == 1, 1:4]
 
 
+################### PLOTTING THE VARIABLES ###################
+
 par(mfrow = c(1, 2))
 # boxplot of training set group 0
 boxplot(training_set_group0, main="Group 0 (under 30)")
@@ -35,7 +37,6 @@ barplot(sapply(training_set_group0, mean), main="Group 0 (under 30)", ylim = c(0
 barplot(sapply(training_set_group1, mean), main="Group 1 (over 30)", ylim = c(0, 137))
 
 
-################### PLOTTING THE VARIABLES ###################
 par(mfrow = c(2, 2))
 qqplot(training_set_group0$Book, training_set_group1$Book, pch = 16)
 abline(0, 1, col = "red")
@@ -49,7 +50,7 @@ abline(0, 1, col = "red")
 
 ################### ESTIMATING THE PARAMETERS OF THE MODEL ###################
 
-# Number of observations in group 1
+# Number of observations in group 0
 nrow(training_set_group0)
 # Total number of observations
 nrow(training_set)
