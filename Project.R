@@ -87,7 +87,7 @@ classify <- function(mu_1, mu_2, Sigma, p, y) {
     # result vector
     res <- c(rep(0, ncol(y)))
 
-    for(i in 1:ncol(y)) {
+    for(i in seq_len(ncol(y))) {
         # logical vector with 0 for class 1 and 1 for class 2
         res[i] <- t(xi) %*% (y[,i] - m) + c < 0
     }
@@ -119,3 +119,4 @@ rep(0, length(training_set_classification)))
 # Applying to test set
 test_set_classification <- classify(mu1_hat, mu2_hat, Sigma_hat, p_hat, test_set[,1:4])
 
+test_set_classification
