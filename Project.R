@@ -123,6 +123,7 @@ nrow(training_set)
 sum(training_set_classification == training_set$Age) / nrow(training_set)
 
 
+
 # Some analyses
 lm_thing <- lm(training_set$Age ~ training_set_classification)
 summary(lm_thing)
@@ -139,33 +140,26 @@ par(mfrow = c(2, 2))
 # plots of the residuals
 plot(lm_thing)
 
-bruh <- glm(training_set$Age ~ training_set_classification)
-summary(bruh)
 
-bruh2 <- glm(training_set$Age ~ training_set$Book + training_set$Cloth + training_set$House + training_set$Electr)
+bruh <- glm(training_set$Age ~ training_set_classification, family = binomial)
+summary(bruh)
+plot(bruh)
+
+
+bruh2 <- glm(training_set$Age ~ training_set$Book + training_set$Cloth + training_set$House + training_set$Electr, family = binomial)
+
 
 summary(bruh2)
+
+par(mfrow = c(2, 2))
+plot(bruh2)
+
+
+
 
 t.test(training_set_classification, training_set$Age)
 t.test(training_set_classification == training_set$Age, 
 rep(0, length(training_set_classification)))
-
-
-?jitter
-# qqplot(jitter(rbinom(n=159,size=159, p=p_hat)),
-# jitter(rbinom(n=159,size=159,p=p_hat) ))
-
-qqnorm(lm_thing$residuals)
-
-
-# qqplot(jitter(rbinom(n=159,size=159, p=p_hat)),
-# jitter(rbinom(n=159,size=159,p=p_hat) ))
-
-
-
-
-
-
 
 
 
