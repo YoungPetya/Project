@@ -5,6 +5,7 @@ summary(data)
 nrow(data)
 # sample size = 350
 
+
 ################### SEPARATING TRAINING SET AND THE TEST SET ###################
 # Age groups:
 # 0: < 30
@@ -18,7 +19,7 @@ test_set <- data[data$Age == 3,]
 
 colnames(training_set)
 
-
+# Splitting the training set by age group
 training_set_group1 <- training_set[training_set$Age == 0, 1:4]
 training_set_group2 <- training_set[training_set$Age == 1, 1:4]
 
@@ -109,6 +110,11 @@ sum(training_set_classification == training_set$Age) / nrow(training_set)
 # Some analyses
 lm_thing <- lm(training_set_classification ~ training_set$Age)
 summary(lm_thing)
+
+
+# plot fitted residuals
+plot(lm_thing)
+
 
 t.test(training_set_classification, training_set$Age)
 t.test(training_set_classification == training_set$Age, 
